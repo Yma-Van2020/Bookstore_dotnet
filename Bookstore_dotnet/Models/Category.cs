@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Bookstore_dotnet;
+namespace Bookstore_dotnet.Models;
 
 public class Category
 {
