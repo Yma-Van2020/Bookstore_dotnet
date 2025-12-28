@@ -3,12 +3,7 @@
     ViewData["Title"] = "Category List";
 }
 
-@if (TempData["success"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["success"]
-    </div>
-}
+<partial name="_Notification" />
 <div class="container">
     <div class="row pt-4 pb-3">
         <div class="col-6">
