@@ -1,4 +1,4 @@
-﻿using Bookstore_dotnet.Models;
+﻿using Bookstore_dotnet.Models.Models;
 using Microsoft.EntityFrameworkCore;
 namespace Bookstore_dotnet;
 
