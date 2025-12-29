@@ -3,24 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Bookstore_dotnet.Models.Models;
+using Bookstore_dotnet.DataAccess.Repository.IRepository;
 
 namespace Bookstore_dotnet.DataAccess.Repository
 {
-    public class CategoryRepository : IRepository.ICategoryRepository
+    public class CategoryRepository : Repository<Category>, ICategoryRepository
     {
         private readonly ApplicationDbContext _db;
 
-        public CategoryRepository(ApplicationDbContext db)
+        public CategoryRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
         }
 
-        public void Upddate(Category category)
+        public void Update(Category category)
         {
             _db.Categories.Update(category);
         }
 
-        public void save()
+        public void Save()
         {
             _db.SaveChanges();
         }

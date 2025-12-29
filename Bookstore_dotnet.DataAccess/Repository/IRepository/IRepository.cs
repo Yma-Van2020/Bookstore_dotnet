@@ -15,7 +15,7 @@ namespace Bookstore_dotnet.DataAccess.Repository.IRepository
             string? includeProperties = null
             );
         T GetFirstOrDefault(
-            Func<IQueryable<T>, IQueryable<T>>? filter = null,
+            Func<T, bool>? filter = null,
             string? includeProperties = null
             );
         void Add(T entity);

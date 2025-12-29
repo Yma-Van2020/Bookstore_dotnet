@@ -9,7 +9,7 @@ namespace Bookstore_dotnet.DataAccess.Repository.IRepository
 {
     public interface ICategoryRepository : IRepository<Category>
     {
-        void Upddate(Category category);
+        void Update(Category category);
         void Save();
     }
 }

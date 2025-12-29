@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Bookstore_dotnet.Models.Models;
+using Bookstore_dotnet.DataAccess.Repository.IRepository;
 
 namespace Bookstore_dotnet.Controllers
 {
@@ -46,7 +47,7 @@ namespace Bookstore_dotnet.Controllers
             {
                 return NotFound();
             }
-            var categoryFromDb = _categoryRepo.Get(u=> u.Id == id);
+            var categoryFromDb = _categoryRepo.GetFirstOrDefault(u=> u.Id == id);
             if (categoryFromDb == null)
             {
                 return NotFound();
@@ -77,18 +78,18 @@ namespace Bookstore_dotnet.Controllers
             {
                 return NotFound();
             }
-            var categoryFromDb = _categoryRepo.Get(u=> u.Id == id);
+            var categoryFromDb = _categoryRepo.GetFirstOrDefault(u=> u.Id == id);
             if (categoryFromDb == null)
             {
                 return NotFound();
             }
             return View(categoryFromDb);
-        }   
+        }
 
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePOST(int? id)
         {
-            var obj = _categoryRepo.Get(u=> u.Id == id);
+            var obj = _categoryRepo.GetFirstOrDefault(u=> u.Id == id);
             if (obj == null)
             {
                 return NotFound();

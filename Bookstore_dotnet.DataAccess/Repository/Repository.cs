@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Bookstore_dotnet.DataAccess.Repository.IRepository;
 
 namespace Bookstore_dotnet.DataAccess.Repository
 {
-    public class Repository<T> : IRepository.IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : class
     {
         private readonly ApplicationDbContext _db;
         internal DbSet<T> dbSet;
@@ -52,14 +54,9 @@ namespace Bookstore_dotnet.DataAccess.Repository
             return query.ToList();
         }
 
-        public T GetFirstOrDefault(Func<IQueryable<T>, IQueryable<T>>? filter = null, string? includeProperties = null)
+        public T GetFirstOrDefault(Func<T, bool>? filter = null, string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
-
-            if (filter != null)
-            {
-                query = filter(query);
-            }
 
             if (includeProperties != null)
             {
@@ -69,7 +66,7 @@ namespace Bookstore_dotnet.DataAccess.Repository
                 }
             }
 
-            return query.FirstOrDefault();
+            return filter != null ? query.FirstOrDefault(filter) : query.FirstOrDefault();
         }
 
         public void Remove(int id)
