@@ -5,9 +5,9 @@ namespace Bookstore_dotnet.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ICategoryRepositoryRepository _categoryRepo;
+        private readonly ICategoryRepository _categoryRepo;
 
-        public CategoryController(ICategoryRepositoryRepository db)
+        public CategoryController(ICategoryRepository db)
         {
             _categoryRepo = db;
         }
