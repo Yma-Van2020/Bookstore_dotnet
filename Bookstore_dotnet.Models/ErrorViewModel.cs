@@ -1,4 +1,4 @@
-namespace Bookstore_dotnet.Models.Models;
+namespace Bookstore_dotnet.Models;
 
 public class ErrorViewModel
 {
