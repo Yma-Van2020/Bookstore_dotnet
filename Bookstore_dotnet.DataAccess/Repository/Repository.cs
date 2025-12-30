@@ -26,7 +26,7 @@ namespace Bookstore_dotnet.DataAccess.Repository
 
         public T Get(int id)
         {
-            return dbSet.Find(id);
+            return dbSet.Find(id)!;
         }
 
         public IEnumerable<T> GetAll(Func<IQueryable<T>, IQueryable<T>>? filter = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, string? includeProperties = null)
@@ -66,20 +66,23 @@ namespace Bookstore_dotnet.DataAccess.Repository
                 }
             }
 
-            return filter != null ? query.FirstOrDefault(filter) : query.FirstOrDefault();
+            return (filter != null ? query.FirstOrDefault(filter) : query.FirstOrDefault())!;
         }
 
         public void Remove(int id)
         {
             T entity = dbSet.Find(id);
-            Remove(entity);
+            if (entity != null)
+            {
+                Remove(entity);
+            }
         }
 
         public void Remove(T entity)
         {
             dbSet.Remove(entity);
         }
-        
+
         public void RemoveRange(IEnumerable<T> entity)
         {
             dbSet.RemoveRange(entity);

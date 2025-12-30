@@ -10,7 +10,7 @@ public class Category
     [Required]
     [MaxLength(30)]
     [Display(Name = "Category Name")]
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     [Range(1, 100, ErrorMessage = "Display Order must be between 1 and 100")]
     [Display(Name = "Display Order")]

@@ -2,8 +2,9 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Bookstore_dotnet.Models.Models;
 
-namespace Bookstore_dotnet.Controllers;
+namespace Bookstore_dotnet.Areas.Customer.Controllers;
 
+[Area("Customer")]
 public class HomeController : Controller
 {
     public IActionResult Index()
