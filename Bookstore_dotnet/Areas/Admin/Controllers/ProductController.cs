@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Bookstore_dotnet.Models;
 using Bookstore_dotnet.DataAccess.Repository.IRepository;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Bookstore_dotnet.Areas.Admin.Controllers
 {
@@ -22,6 +23,12 @@ namespace Bookstore_dotnet.Areas.Admin.Controllers
 
         public IActionResult Create()
         {
+            IEnumerable<SelectListItem> categoryList = _unitOfWork.Category.GetAll().Select(i => new SelectListItem
+            {
+                Text = i.Name,
+                Value = i.Id.ToString()
+            });
+            ViewBag.CategoryList = categoryList;
             return View();
         }
         
