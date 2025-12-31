@@ -2,6 +2,7 @@
 using Bookstore_dotnet.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bookstore_dotnet.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251231050045_AddCategoryIdToProduct")]
+    partial class AddCategoryIdToProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.1");
@@ -76,10 +79,6 @@ namespace Bookstore_dotnet.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<decimal>("ListPrice")
                         .HasColumnType("TEXT");
 
@@ -110,7 +109,6 @@ namespace Bookstore_dotnet.DataAccess.Migrations
                             CategoryId = 1,
                             Description = "Description 1",
                             ISBN = "ISBN1",
-                            ImageUrl = "",
                             ListPrice = 100m,
                             Price = 90m,
                             Price100 = 70m,
@@ -124,7 +122,6 @@ namespace Bookstore_dotnet.DataAccess.Migrations
                             CategoryId = 2,
                             Description = "Description 2",
                             ISBN = "ISBN2",
-                            ImageUrl = "",
                             ListPrice = 150m,
                             Price = 140m,
                             Price100 = 120m,
@@ -138,7 +135,6 @@ namespace Bookstore_dotnet.DataAccess.Migrations
                             CategoryId = 3,
                             Description = "Description 3",
                             ISBN = "ISBN3",
-                            ImageUrl = "",
                             ListPrice = 200m,
                             Price = 180m,
                             Price100 = 150m,
