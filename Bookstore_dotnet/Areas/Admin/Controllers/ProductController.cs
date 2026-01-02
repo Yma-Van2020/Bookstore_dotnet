@@ -3,6 +3,7 @@ using Bookstore_dotnet.Models;
 using Bookstore_dotnet.Models.ViewModels;
 using Bookstore_dotnet.DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Bookstore_dotnet.Areas.Admin.Controllers
 {
@@ -10,10 +11,12 @@ namespace Bookstore_dotnet.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public ProductController(IUnitOfWork unitOfWork)
+        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment hostEnvironment)
         {
             _unitOfWork = unitOfWork;
+            _hostEnvironment = hostEnvironment;
         }
 
         public IActionResult Index()
@@ -57,17 +60,42 @@ namespace Bookstore_dotnet.Areas.Admin.Controllers
             }
             return View(productVM);
         }
-        
+
         [HttpPost]
         public IActionResult Upsert(ProductVM ProductVM, IFormFile? file)
         {
             if (ModelState.IsValid)
             {
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                if (file != null)
+                {
+                    string fileName = Guid.NewGuid().ToString();
+                    var uploads = Path.Combine(wwwRootPath, @"images\product");
+                    var extension = Path.GetExtension(file.FileName);
+
+                    if (ProductVM.Product.ImageUrl != null)
+                    {
+                        var oldImagePath = Path.Combine(wwwRootPath, ProductVM.Product.ImageUrl.TrimStart('\\'));
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+
+                    using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                    {
+                        file.CopyTo(fileStreams);
+                    }
+                    ProductVM.Product.ImageUrl = @"\images\product\" + fileName + extension;
+                }
+
                 _unitOfWork.Product.Add(ProductVM.Product);
                 _unitOfWork.Save();
                 TempData["success"] = "Product created successfully";
                 return RedirectToAction("Index");
-            } else {
+            }
+            else
+            {
                 ProductVM.CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
                 {
                     Text = u.Name,
@@ -83,7 +111,7 @@ namespace Bookstore_dotnet.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var productFromDb = _unitOfWork.Product.GetFirstOrDefault(u=> u.Id == id);
+            var productFromDb = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == id);
             if (productFromDb == null)
             {
                 return NotFound();
@@ -94,7 +122,7 @@ namespace Bookstore_dotnet.Areas.Admin.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePOST(int? id)
         {
-            var obj = _unitOfWork.Product.GetFirstOrDefault(u=> u.Id == id);
+            var obj = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == id);
             if (obj == null)
             {
                 return NotFound();
