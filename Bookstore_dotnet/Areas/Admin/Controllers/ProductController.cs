@@ -89,7 +89,15 @@ namespace Bookstore_dotnet.Areas.Admin.Controllers
                     ProductVM.Product.ImageUrl = @"\images\product\" + fileName + extension;
                 }
 
-                _unitOfWork.Product.Add(ProductVM.Product);
+                if (ProductVM.Product.Id != 0)
+                {
+                    _unitOfWork.Product.Update(ProductVM.Product);
+                }
+                else
+                {
+                    _unitOfWork.Product.Add(ProductVM.Product);
+                }
+                
                 _unitOfWork.Save();
                 TempData["success"] = "Product created successfully";
                 return RedirectToAction("Index");
