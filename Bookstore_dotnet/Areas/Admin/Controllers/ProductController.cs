@@ -4,6 +4,7 @@ using Bookstore_dotnet.Models.ViewModels;
 using Bookstore_dotnet.DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Hosting;
+using System.Text.Json.Nodes;
 
 namespace Bookstore_dotnet.Areas.Admin.Controllers
 {
@@ -140,5 +141,15 @@ namespace Bookstore_dotnet.Areas.Admin.Controllers
             TempData["success"] = "Product deleted successfully";
             return RedirectToAction("Index");
         }
+
+        #region API CALLS
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            List<Product> objectProductList = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
+            return Json(new { data = objectProductList });
+        }
+        
+        #endregion
     }
 }
