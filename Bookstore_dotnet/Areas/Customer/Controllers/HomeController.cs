@@ -27,7 +27,7 @@ public class HomeController : Controller
 
     public IActionResult Details(int productId)
     {
-        Product product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == productId);
+        Product product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == productId, includeProperties: "Category");
         return View(product);
     }
 
