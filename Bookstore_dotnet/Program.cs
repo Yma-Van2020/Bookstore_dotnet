@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Bookstore_dotnet.DataAccess.Data;
 using Bookstore_dotnet.DataAccess.Repository.IRepository;
 using Bookstore_dotnet.DataAccess.Repository;
+using Bookstore_dotnet.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDbContext<Bookstore_dotnetIdentityDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("Bookstore_dotnetIdentityDbContextConnection")));
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<Bookstore_dotnetIdentityDbContext>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
